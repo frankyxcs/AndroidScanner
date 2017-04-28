@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="hello">Hello</string>
+    <string name="app_name">Diploma Scanner</string>
+    <string name="button_text">Розпізнавати</string>
+    <string name="text_hint">Текст розпізнавання з*явиться нижче</string>
+
+</resources>
