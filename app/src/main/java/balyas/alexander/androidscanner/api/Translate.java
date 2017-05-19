@@ -4,17 +4,31 @@ package balyas.alexander.androidscanner.api;
 import com.google.gson.annotations.SerializedName;
 
 public class Translate {
-    @SerializedName("code")
-    private int translateCode;
+    @SerializedName("from")
+    private String fromLang;
+
+    @SerializedName("to")
+    private String toLang;
 
     @SerializedName("text")
-    private String[] translate;
+    private String text;
 
-    public int getTranslateCode() {
-        return translateCode;
+    @SerializedName("translationText")
+    private String  translate;
+
+    public String getFromLang() {
+        return fromLang;
     }
 
-    public String[] getTranslate() {
+    public String getToLang() {
+        return toLang;
+    }
+
+    public String getText() {
+        return text;
+    }
+
+    public String getTranslate() {
         return translate;
     }
 }

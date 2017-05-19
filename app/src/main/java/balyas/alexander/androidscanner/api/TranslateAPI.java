@@ -6,9 +6,8 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-public interface TranslateAPI {@GET("/api/v1.5/tr.json/translate?lang=en-ru&key=" + BuildConfig.API_YANDEX )
-Call<Translate> getTranslateEnRu(@Query("text") String text);
+public interface TranslateAPI {@GET("api/translate")
+Call<Translate> getTranslate(@Query("text") String text, @Query("from") String from, @Query("to") String to);
 
-    @GET("/api/v1.5/tr.json/translate?lang=ru-en&key=" + BuildConfig.API_YANDEX )
-    Call<Translate> getTranslateRuEn(@Query("text") String text);
+
 }

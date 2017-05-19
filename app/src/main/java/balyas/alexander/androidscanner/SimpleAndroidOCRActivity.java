@@ -57,6 +57,7 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
 
     protected Button _button;
     private Button bTrans;
+    private String fromTr;
     // protected ImageView _image;
     protected EditText _field;
     protected EditText _field2;
@@ -169,22 +170,27 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
             case R.id.bt_eng:
                 mainText.setText("Обрано мову розпізнавання: англійська");
                 lang = "eng";
+                fromTr = "en";
                 break;
             case R.id.bt_rus:
                 mainText.setText("Обрано мову розпізнавання: російська");
                 lang = "rus";
+                fromTr = "ru";
                 break;
             case R.id.bt_ukr:
                 mainText.setText("Обрано мову розпізнавання: українська");
                 lang = "ukr";
+                fromTr = "uk";
                 break;
             case R.id.bt_fra:
                 mainText.setText("Обрано мову розпізнавання: французька");
                 lang = "fra";
+                fromTr = "fr";
                 break;
             case R.id.bt_esp:
                 mainText.setText("Обрано мову розпізнавання: іспанська");
-                lang = "spa";
+                lang = "esp";
+                fromTr = "es";
                 break;
             case R.id.bt_eng_tran:
                 transText.setText("Обрано мову перекладу: англійська");
@@ -225,7 +231,7 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
     }
 
     private void getTranslate() {
-        String BASE_URL = "https://translate.yandex.net";
+        String BASE_URL = "http://www.transltr.org/";
         String firstPart = _field.getText().toString();
         if (firstPart.length() > 1) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -243,21 +249,19 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
                     .build();
             TranslateAPI transAPI = client.create(TranslateAPI.class);
 
-            if ("ru".compareTo(translate) == 0) {
-                Call<Translate> callTrans = transAPI.getTranslateEnRu(firstPart);
-                callTrans.enqueue(this);
-            } else {
 
-            }
+                Call<Translate> callTrans = transAPI.getTranslate(firstPart, fromTr, translate);
+                callTrans.enqueue(this);
+
         }
     }
 
     @Override
     public void onResponse(final Call<Translate> call, final Response<Translate> response) {
         if (response.isSuccessful()){
-            String[] array = response.body().getTranslate();
+            String text = response.body().getTranslate();
 
-            _field2.setText(array[0]);
+            _field2.setText(text);
 
         } else {
             Toast.makeText(SimpleAndroidOCRActivity.this, "Error code " + response.code(), Toast.LENGTH_SHORT).show();
@@ -269,8 +273,6 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
 
     }
 
-    // Simple android photo capture:
-    // http://labs.makemachine.net/2010/03/simple-android-photo-capture/
 
     protected void startCameraActivity() {
         File file = new File(_path);
