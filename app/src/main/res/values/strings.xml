@@ -5,5 +5,6 @@
     <string name="app_name">Diploma Scanner</string>
     <string name="button_text">Розпізнавати</string>
     <string name="text_hint">Текст розпізнавання з*явиться нижче</string>
+    <string name="translate_hint">Текст перекладу з*явиться нижче</string>
 
 </resources>

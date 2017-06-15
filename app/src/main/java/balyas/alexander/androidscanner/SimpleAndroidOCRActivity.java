@@ -41,7 +41,6 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SimpleAndroidOCRActivity extends Activity implements View.OnClickListener, Callback<Translate> {
-    public static final String PACKAGE_NAME = "com.datumdroid.android.ocr.simple";
     public static final String DATA_PATH = Environment
             .getExternalStorageDirectory().toString() + "/SimpleAndroidOCR/";
 
@@ -116,10 +115,7 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
 
         }
 
-        // lang.traineddata file with the app (in assets folder)
-        // You can get them at:
-        // http://code.google.com/p/tesseract-ocr/downloads/list
-        // This area needs work and optimization
+
         for (int i = 0; i < langs.length; i++) {
             if (!(new File(DATA_PATH + "tessdata/" + langs[i] + ".traineddata")).exists()) {
                 try {
