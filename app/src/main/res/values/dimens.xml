@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="flag_size">36dp</dimen>
+    <dimen name="flag_width">48dp</dimen>
+    <dimen name="flag_margin">4dp</dimen>
+    <dimen name="second_part_margin">30dp</dimen>
+</resources>

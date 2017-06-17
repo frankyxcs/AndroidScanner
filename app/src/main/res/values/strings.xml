@@ -2,9 +2,11 @@
 <resources>
 
     <string name="hello">Hello</string>
-    <string name="app_name">Diploma Scanner</string>
-    <string name="button_text">Розпізнавати</string>
-    <string name="text_hint">Текст розпізнавання з*явиться нижче</string>
-    <string name="translate_hint">Текст перекладу з*явиться нижче</string>
+    <string name="app_name">Text Scanner</string>
+    <string name="button_text">Recognize</string>
+    <string name="text_hint">Recognition text will appear here</string>
+    <string name="translate_hint">Translation text will appear here</string>
+    <string name="choose_rec_lang">Оберіть мову розпізнавання</string>
+    <string name="choose_trans_lang">Оберіть мову перекладу</string>
 
 </resources>

@@ -17,6 +17,7 @@ import android.view.SurfaceHolder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,13 +41,11 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SimpleAndroidOCRActivity extends Activity implements View.OnClickListener, Callback<Translate> {
+public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.OnClickListener, Callback<Translate> {
     public static final String DATA_PATH = Environment
             .getExternalStorageDirectory().toString() + "/SimpleAndroidOCR/";
 
-    // You should have the trained data file in assets folder
-    // You can get them at:
-    // https://github.com/tesseract-ocr/tessdata
+
     public static String lang = "eng";
     public static String[] langs = {"eng", "rus", "ukr", "fra", "spa"};
     public static String[] langs_2 = {"en", "ru", "uk", "fr", "es"};
@@ -64,18 +63,18 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
     protected boolean _taken;
 
     private TextView mainText;
-    private Button btEng;
-    private Button btRus;
-    private Button btUkr;
-    private Button btFra;
-    private Button btEsp;
+    private ImageButton btEng;
+    private ImageButton btRus;
+    private ImageButton btUkr;
+    private ImageButton btFra;
+    private ImageButton btEsp;
 
     private TextView transText;
-    private Button btEngT;
-    private Button btRusT;
-    private Button btUkrT;
-    private Button btFraT;
-    private Button btEspT;
+    private ImageButton btEngT;
+    private ImageButton btRusT;
+    private ImageButton btUkrT;
+    private ImageButton btFraT;
+    private ImageButton btEspT;
 
     protected static final String PHOTO_TAKEN = "photo_taken";
 
@@ -85,18 +84,18 @@ public class SimpleAndroidOCRActivity extends Activity implements View.OnClickLi
         setContentView(R.layout.main);
 
         mainText = (TextView) findViewById(R.id.main_text);
-        btEng = (Button) findViewById(R.id.bt_eng);
-        btRus = (Button) findViewById(R.id.bt_rus);
-        btUkr = (Button) findViewById(R.id.bt_ukr);
-        btFra = (Button) findViewById(R.id.bt_fra);
-        btEsp = (Button) findViewById(R.id.bt_esp);
+        btEng = (ImageButton) findViewById(R.id.bt_eng);
+        btRus = (ImageButton) findViewById(R.id.bt_rus);
+        btUkr = (ImageButton) findViewById(R.id.bt_ukr);
+        btFra = (ImageButton) findViewById(R.id.bt_fra);
+        btEsp = (ImageButton) findViewById(R.id.bt_esp);
 
         transText = (TextView) findViewById(R.id.translate_text);
-        btEngT = (Button) findViewById(R.id.bt_eng_tran);
-        btRusT = (Button) findViewById(R.id.bt_rus_tran);
-        btUkrT = (Button) findViewById(R.id.bt_ukr_tran);
-        btFraT = (Button) findViewById(R.id.bt_fra_tran);
-        btEspT = (Button) findViewById(R.id.bt_esp_tran);
+        btEngT = (ImageButton) findViewById(R.id.bt_eng_tran);
+        btRusT = (ImageButton) findViewById(R.id.bt_rus_tran);
+        btUkrT = (ImageButton) findViewById(R.id.bt_ukr_tran);
+        btFraT = (ImageButton) findViewById(R.id.bt_fra_tran);
+        btEspT = (ImageButton) findViewById(R.id.bt_esp_tran);
 
         String[] paths = new String[]{DATA_PATH, DATA_PATH + "tessdata/"};
 

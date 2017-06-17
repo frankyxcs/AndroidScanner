@@ -2,12 +2,13 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="vertical">
+            android:scrollbars="vertical"
+    android:background="@color/background">
 
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
@@ -15,54 +16,58 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Оберіть мову розпізнавання"/>
+            android:layout_margin="4dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:text="@string/choose_rec_lang"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_margin="4dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_eng"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="ENG"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/eng"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_rus"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="RUS"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/rus"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_ukr"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="UKR"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/ukr"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_fra"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="FRA"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/fra"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_esp"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="ESP"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/spa"/>
 
 
         </LinearLayout>
@@ -71,6 +76,9 @@
             android:id="@+id/button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="#FFF"
+            android:layout_margin="16dp"
+            android:background="@color/colorPrimary"
             android:text="@string/button_text"/>
 
 
@@ -78,68 +86,74 @@
             android:id="@+id/field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
+            android:layout_margin="4dp"
+            android:textColor="@color/colorPrimaryDark"
             android:hint="@string/text_hint"/>
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#FFF"/>
+            android:background="@color/colorPrimaryDark"/>
 
         <TextView
             android:id="@+id/translate_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Оберіть мову перекладу"/>
+            android:textSize="16sp"
+            android:layout_marginTop="@dimen/second_part_margin"
+            android:layout_marginBottom="4dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:text="@string/choose_trans_lang"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_margin="4dp"
             android:orientation="horizontal"
             android:weightSum="1">
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_eng_tran"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="ENG"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/eng"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_rus_tran"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="RUS"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/rus"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_ukr_tran"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="UKR"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/ukr"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_fra_tran"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="FRA"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/fra"/>
 
-            <Button
+            <ImageButton
                 android:id="@+id/bt_esp_tran"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.15"
+                android:layout_width="@dimen/flag_width"
+                android:layout_height="@dimen/flag_size"
                 android:onClick="onClick"
-                android:text="ESP"/>
+                android:layout_margin="@dimen/flag_margin"
+                android:background="@drawable/spa"/>
 
 
         </LinearLayout>
@@ -148,6 +162,9 @@
             android:id="@+id/bt_get_trans"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textColor="#FFF"
+            android:background="@color/colorPrimary"
             android:text="Отримати переклад"/>
 
 
@@ -155,7 +172,8 @@
             android:id="@+id/field2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="false"
+            android:layout_margin="4dp"
+            android:textColor="@color/colorPrimaryDark"
             android:hint="@string/translate_hint"/>
 
 
