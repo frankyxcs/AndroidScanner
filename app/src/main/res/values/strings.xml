@@ -8,5 +8,15 @@
     <string name="translate_hint">Translation text will appear here</string>
     <string name="choose_rec_lang">Оберіть мову розпізнавання</string>
     <string name="choose_trans_lang">Оберіть мову перекладу</string>
+    <string name="recognition_eng">Choose recognition language: english</string>
+    <string name="recognition_rus">Choose recognition language: russian</string>
+    <string name="recognition_ukr">Choose recognition language: ukrainian</string>
+    <string name="recognition_france">Choose recognition language: french</string>
+    <string name="recognition_spa">Choose recognition language: spanish</string>
+    <string name="translation_eng">Choose translation language: english</string>
+    <string name="translation_rus">Choose translation language: russian</string>
+    <string name="translation_ukr">Choose translation language: ukrainian</string>
+    <string name="translation_fra">Choose translation language: french</string>
+    <string name="translation_spa">Choose translation language: spanish</string>
 
 </resources>

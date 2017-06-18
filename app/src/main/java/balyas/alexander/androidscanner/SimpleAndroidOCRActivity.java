@@ -1,15 +1,23 @@
 package balyas.alexander.androidscanner;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -45,6 +53,9 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     public static final String DATA_PATH = Environment
             .getExternalStorageDirectory().toString() + "/SimpleAndroidOCR/";
 
+    public static final int REQUEST_PERMISSION_CAMERA = 101;
+    public static final int REQUEST_PERMISSION_EXTERNAL_STORAGE = 102;
+
 
     public static String lang = "eng";
     public static String[] langs = {"eng", "rus", "ukr", "fra", "spa"};
@@ -61,6 +72,8 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     protected EditText _field2;
     protected String _path;
     protected boolean _taken;
+
+    private ConstraintLayout constraintLayout;
 
     private TextView mainText;
     private ImageButton btEng;
@@ -83,6 +96,8 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        constraintLayout = (ConstraintLayout) findViewById(R.id.cl_main);
+
         mainText = (TextView) findViewById(R.id.main_text);
         btEng = (ImageButton) findViewById(R.id.bt_eng);
         btRus = (ImageButton) findViewById(R.id.bt_rus);
@@ -99,51 +114,57 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
 
         String[] paths = new String[]{DATA_PATH, DATA_PATH + "tessdata/"};
 
-        for (String path : paths) {
-            File dir = new File(path);
-            if (!dir.exists()) {
-                if (!dir.mkdirs()) {
-                    Log.v(TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
-                    return;
-                } else {
-                    Log.v(TAG, "Created directory " + path + " on sdcard");
-                }
-            } else {
-                Log.v(TAG, "Directory has already created: " + path);
-            }
+        if (hasPermissions()) {
 
-        }
-
-
-        for (int i = 0; i < langs.length; i++) {
-            if (!(new File(DATA_PATH + "tessdata/" + langs[i] + ".traineddata")).exists()) {
-                try {
-
-                    AssetManager assetManager = getAssets();
-                    InputStream in = assetManager.open(langs[i] + ".traineddata");
-                    //GZIPInputStream gin = new GZIPInputStream(in);
-                    OutputStream out = new FileOutputStream(DATA_PATH
-                            + "tessdata/" + langs[i] + ".traineddata");
-
-                    // Transfer bytes from in to out
-                    byte[] buf = new byte[1024];
-                    int len;
-                    //while ((lenf = gin.read(buff)) > 0) {
-                    while ((len = in.read(buf)) > 0) {
-                        out.write(buf, 0, len);
+            for (String path : paths) {
+                File dir = new File(path);
+                if (!dir.exists()) {
+                    if (!dir.mkdirs()) {
+                        Log.v(TAG, "ERROR: Creation of directory " + path + " on sdcard failed");
+                        return;
+                    } else {
+                        Log.v(TAG, "Created directory " + path + " on sdcard");
                     }
-                    in.close();
-                    //gin.close();
-                    out.close();
-
-                    Log.v(TAG, "Copied " + langs[i] + " traineddata");
-                } catch (IOException e) {
-                    Log.e(TAG, "Was unable to copy " + langs[i] + " traineddata " + e.toString());
+                } else {
+                    Log.v(TAG, "Directory has already created: " + path);
                 }
-            } else {
-                Log.v(TAG, "File is already exist");
+
             }
 
+
+            for (int i = 0; i < langs.length; i++) {
+                if (!(new File(DATA_PATH + "tessdata/" + langs[i] + ".traineddata")).exists()) {
+                    try {
+
+                        AssetManager assetManager = getAssets();
+                        InputStream in = assetManager.open(langs[i] + ".traineddata");
+                        //GZIPInputStream gin = new GZIPInputStream(in);
+                        OutputStream out = new FileOutputStream(DATA_PATH
+                                + "tessdata/" + langs[i] + ".traineddata");
+
+                        // Transfer bytes from in to out
+                        byte[] buf = new byte[1024];
+                        int len;
+                        //while ((lenf = gin.read(buff)) > 0) {
+                        while ((len = in.read(buf)) > 0) {
+                            out.write(buf, 0, len);
+                        }
+                        in.close();
+                        //gin.close();
+                        out.close();
+
+                        Log.v(TAG, "Copied " + langs[i] + " traineddata");
+                    } catch (IOException e) {
+                        Log.e(TAG, "Was unable to copy " + langs[i] + " traineddata " + e.toString());
+                    }
+                } else {
+                    Log.v(TAG, "File is already exist");
+                }
+
+            }
+
+        } else {
+            requestPermissionWithRationale();
         }
 
         // _image = (ImageView) findViewById(R.id.image);
@@ -163,48 +184,48 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         int id = v.getId();
         switch (id) {
             case R.id.bt_eng:
-                mainText.setText("Обрано мову розпізнавання: англійська");
+                mainText.setText(R.string.recognition_eng);
                 lang = "eng";
                 fromTr = "en";
                 break;
             case R.id.bt_rus:
-                mainText.setText("Обрано мову розпізнавання: російська");
+                mainText.setText(R.string.recognition_rus);
                 lang = "rus";
                 fromTr = "ru";
                 break;
             case R.id.bt_ukr:
-                mainText.setText("Обрано мову розпізнавання: українська");
+                mainText.setText(R.string.recognition_ukr);
                 lang = "ukr";
                 fromTr = "uk";
                 break;
             case R.id.bt_fra:
-                mainText.setText("Обрано мову розпізнавання: французька");
+                mainText.setText(R.string.recognition_france);
                 lang = "fra";
                 fromTr = "fr";
                 break;
             case R.id.bt_esp:
-                mainText.setText("Обрано мову розпізнавання: іспанська");
+                mainText.setText(R.string.recognition_spa);
                 lang = "esp";
                 fromTr = "es";
                 break;
             case R.id.bt_eng_tran:
-                transText.setText("Обрано мову перекладу: англійська");
+                transText.setText(R.string.translation_eng);
                 translate = "en";
                 break;
             case R.id.bt_rus_tran:
-                transText.setText("Обрано мову перекладу: російська");
+                transText.setText(R.string.translation_rus);
                 translate = "ru";
                 break;
             case R.id.bt_ukr_tran:
-                transText.setText("Обрано мову перекладу: українська");
+                transText.setText(R.string.translation_ukr);
                 translate = "uk";
                 break;
             case R.id.bt_fra_tran:
-                transText.setText("Обрано мову перекладу: французька");
+                transText.setText(R.string.translation_fra);
                 translate = "fr";
                 break;
             case R.id.bt_esp_tran:
-                transText.setText("Обрано мову перекладу: іспанська");
+                transText.setText(R.string.translation_spa);
                 translate = "es";
                 break;
         }
@@ -216,12 +237,137 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
             switch (view.getId()) {
                 case R.id.button:
                     Log.v(TAG, "Starting Camera app");
-                    startCameraActivity();
+                    if (hasPermissions()) {
+                        startCameraActivity();
+                    } else {
+                        requestPermissionWithRationale();
+                    }
                     break;
                 case R.id.bt_get_trans:
                     getTranslate();
             }
 
+        }
+    }
+
+    private boolean hasPermissions() {
+        int res = 0;
+        //string array of permissions,
+        String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+        for (String perms : permissions){
+            res = checkCallingOrSelfPermission(perms);
+            if (!(res == PackageManager.PERMISSION_GRANTED)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private void requestPerms(){
+        String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            requestPermissions(permissions,REQUEST_PERMISSION_CAMERA);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        boolean allowed = true;
+
+        switch (requestCode){
+            case REQUEST_PERMISSION_EXTERNAL_STORAGE:
+
+                for (int res : grantResults) {
+                    // if user granted all permissions.
+                    allowed = allowed && (res == PackageManager.PERMISSION_GRANTED);
+                }
+
+                break;
+
+            default:
+                // if user not granted permissions.
+                allowed = false;
+                break;
+        }
+
+        if (allowed){
+            //user granted all permissions we can perform our task.
+            //create();
+        }
+        else {
+            // we will give warning to user that they haven't granted permissions.
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+                    Toast.makeText(this, "Calendar Permissions denied.", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    showNoStoragePermissionSnackbar();
+                }
+            }
+        }
+
+    }
+
+
+    /**
+     * use this method if user choose 'never show again' in dialog
+     */
+    public void showNoStoragePermissionSnackbar() {
+        Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), "Permission isn't granted" , Snackbar.LENGTH_LONG)
+                .setAction("SETTINGS", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        openApplicationSettings();
+
+                        Toast.makeText(getApplicationContext(),
+                                "Open Permissions and grant the permission(s)",
+                                Toast.LENGTH_SHORT)
+                                .show();
+                    }
+                })
+                .show();
+    }
+
+    /**
+     * Intent to show needed permission in app's settings
+     */
+    public void openApplicationSettings() {
+        Intent appSettingsIntent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:" + getPackageName()));
+        startActivityForResult(appSettingsIntent, REQUEST_PERMISSION_CAMERA);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_PERMISSION_CAMERA || requestCode == REQUEST_PERMISSION_EXTERNAL_STORAGE) {
+            return;
+        }
+        if (resultCode == -1) {
+            onPhotoTaken();
+        } else {
+            Log.v(TAG, "User cancelled");
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**
+     * use this method if user doesn't grant permissions what he need
+     */
+    public void requestPermissionWithRationale() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                Manifest.permission.READ_CALENDAR)) {
+            final String message = "Calendar permission is needed to create important events!";
+            Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), message, Snackbar.LENGTH_LONG)
+                    .setAction("GRANT", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            requestPerms();
+                        }
+                    })
+                    .show();
+        } else {
+            requestPerms();
         }
     }
 
@@ -279,17 +425,17 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         startActivityForResult(intent, 0);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        Log.i(TAG, "resultCode: " + resultCode);
-
-        if (resultCode == -1) {
-            onPhotoTaken();
-        } else {
-            Log.v(TAG, "User cancelled");
-        }
-    }
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//
+//        Log.i(TAG, "resultCode: " + resultCode);
+//
+//        if (resultCode == -1) {
+//            onPhotoTaken();
+//        } else {
+//            Log.v(TAG, "User cancelled");
+//        }
+//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
