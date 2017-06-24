@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Привет</string>
+    <string name="app_name">Сканнер текста</string>
+    <string name="button_text">Распознать</string>
+    <string name="text_hint">Распознанный текст появится здесь</string>
+    <string name="translate_hint">Переведенный текст появится здесь</string>
+    <string name="choose_rec_lang">Выберите язык распознавания</string>
+    <string name="choose_trans_lang">Выберите язык перевода</string>
+    <string name="recognition_eng">Язык распознавания: английский</string>
+    <string name="recognition_rus">Язык распознавания: русский</string>
+    <string name="recognition_ukr">Язык распознавания: украинский</string>
+    <string name="recognition_france">Язык распознавания: французский</string>
+    <string name="recognition_spa">Язык распознавания: испанский</string>
+    <string name="translation_eng">Язык перевода: английский</string>
+    <string name="translation_rus">Язык перевода: русский</string>
+    <string name="translation_ukr">Язык перевода: украинский</string>
+    <string name="translation_fra">Язык перевода: французский</string>
+    <string name="translation_spa">Язык перевода: испанский</string>
+    <string name="camera_permission_text">Разрешете использовать камеру, чтобы распознавать текст.</string>
+    <string name="open_permissions">Открыть разрешения</string>
+    <string name="permission_isnt_granted">Разрешение не получено</string>
+    <string name="settings">НАСТРОЙКИ</string>
+    <string name="permission_denied">Разрешение на использование камеры отклонено.</string>
+    <string name="get_translation">Перевести</string>
+</resources>

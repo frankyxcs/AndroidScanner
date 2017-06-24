@@ -299,7 +299,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
             // we will give warning to user that they haven't granted permissions.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
-                    Toast.makeText(this, "Calendar Permissions denied.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
 
                 } else {
                     showNoStoragePermissionSnackbar();
@@ -314,14 +314,14 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
      * use this method if user choose 'never show again' in dialog
      */
     public void showNoStoragePermissionSnackbar() {
-        Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), "Permission isn't granted" , Snackbar.LENGTH_LONG)
-                .setAction("SETTINGS", new View.OnClickListener() {
+        Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), R.string.permission_isnt_granted , Snackbar.LENGTH_LONG)
+                .setAction(R.string.settings, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         openApplicationSettings();
 
                         Toast.makeText(getApplicationContext(),
-                                "Open Permissions and grant the permission(s)",
+                                R.string.open_permissions,
                                 Toast.LENGTH_SHORT)
                                 .show();
                     }
@@ -344,7 +344,14 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
             return;
         }
         if (resultCode == -1) {
-            onPhotoTaken();
+
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                    onPhotoTaken();
+//                }
+//            }).start();
+//            onPhotoTaken();
         } else {
             Log.v(TAG, "User cancelled");
         }
@@ -357,7 +364,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     public void requestPermissionWithRationale() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this,
                 Manifest.permission.READ_CALENDAR)) {
-            final String message = "Calendar permission is needed to create important events!";
+            final String message = getString(R.string.camera_permission_text);
             Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), message, Snackbar.LENGTH_LONG)
                     .setAction("GRANT", new View.OnClickListener() {
                         @Override
@@ -424,18 +431,6 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
 
         startActivityForResult(intent, 0);
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//
-//        Log.i(TAG, "resultCode: " + resultCode);
-//
-//        if (resultCode == -1) {
-//            onPhotoTaken();
-//        } else {
-//            Log.v(TAG, "User cancelled");
-//        }
-//    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

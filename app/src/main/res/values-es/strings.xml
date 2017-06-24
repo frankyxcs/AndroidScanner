@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hola</string>
+    <string name="app_name">Escáner de texto</string>
+    <string name="button_text">Reconocer</string>
+    <string name="text_hint">El texto de reconocimiento aparecerá aquí</string>
+    <string name="translate_hint">El texto de traducción aparecerá aquí</string>
+    <string name="choose_rec_lang">Elegir idioma de reconocimiento</string>
+    <string name="choose_trans_lang">Elija idioma de traducción</string>
+    <string name="recognition_eng">Idioma de reconocimiento: inglés</string>
+    <string name="recognition_rus">Lengua de reconocimiento: ruso</string>
+    <string name="recognition_ukr">Lengua de reconocimiento: ucraniano</string>
+    <string name="recognition_france">Lengua de reconocimiento: francés</string>
+    <string name="recognition_spa">Lengua de reconocimiento: español</string>
+    <string name="translation_eng">Idioma de la traducción: inglés</string>
+    <string name="translation_rus">Idioma de la traducción: ruso</string>
+    <string name="translation_ukr">Idioma de la traducción: ucraniano</string>
+    <string name="translation_fra">Idioma de la traducción: francés</string>
+    <string name="translation_spa">Idioma de la traducción: español</string>
+    <string name="camera_permission_text">El permiso de la cámara es necesario para usar la función de reconocimiento!</string>
+    <string name="open_permissions">Abra Permisos y conceda permiso (s)</string>
+    <string name="permission_isnt_granted">El permiso no se concede</string>
+    <string name="settings">AJUSTES</string>
+    <string name="permission_denied">Permisos de cámara negados.</string>
+    <string name="get_translation">Traducir</string>
+</resources>
