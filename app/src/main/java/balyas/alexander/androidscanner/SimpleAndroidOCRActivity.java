@@ -12,6 +12,8 @@ import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -171,7 +173,6 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
 
         // _image = (ImageView) findViewById(R.id.image);
         _field = (EditText) findViewById(R.id.field);
-        _field2 = (EditText) findViewById(R.id.field2);
         _button = (Button) findViewById(R.id.button);
         _button.setOnClickListener(new ButtonClickHandler());
 
@@ -187,47 +188,57 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         switch (id) {
             case R.id.bt_eng:
                 mainText.setText(R.string.recognition_eng);
+                _button.setEnabled(true);
                 lang = "eng";
                 fromTr = "en";
                 break;
             case R.id.bt_rus:
                 mainText.setText(R.string.recognition_rus);
+                _button.setEnabled(true);
                 lang = "rus";
                 fromTr = "ru";
                 break;
             case R.id.bt_ukr:
                 mainText.setText(R.string.recognition_ukr);
+                _button.setEnabled(true);
                 lang = "ukr";
                 fromTr = "uk";
                 break;
             case R.id.bt_fra:
                 mainText.setText(R.string.recognition_france);
+                _button.setEnabled(true);
                 lang = "fra";
                 fromTr = "fr";
                 break;
             case R.id.bt_esp:
                 mainText.setText(R.string.recognition_spa);
+                _button.setEnabled(true);
                 lang = "esp";
                 fromTr = "es";
                 break;
             case R.id.bt_eng_tran:
                 transText.setText(R.string.translation_eng);
+                bTrans.setEnabled(true);
                 translate = "en";
                 break;
             case R.id.bt_rus_tran:
                 transText.setText(R.string.translation_rus);
+                bTrans.setEnabled(true);
                 translate = "ru";
                 break;
             case R.id.bt_ukr_tran:
                 transText.setText(R.string.translation_ukr);
+                bTrans.setEnabled(true);
                 translate = "uk";
                 break;
             case R.id.bt_fra_tran:
                 transText.setText(R.string.translation_fra);
+                bTrans.setEnabled(true);
                 translate = "fr";
                 break;
             case R.id.bt_esp_tran:
                 transText.setText(R.string.translation_spa);
+                bTrans.setEnabled(true);
                 translate = "es";
                 break;
         }
@@ -257,19 +268,19 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         //string array of permissions,
         String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
 
-        for (String perms : permissions){
+        for (String perms : permissions) {
             res = checkCallingOrSelfPermission(perms);
-            if (!(res == PackageManager.PERMISSION_GRANTED)){
+            if (!(res == PackageManager.PERMISSION_GRANTED)) {
                 return false;
             }
         }
         return true;
     }
 
-    private void requestPerms(){
+    private void requestPerms() {
         String[] permissions = new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            requestPermissions(permissions,REQUEST_PERMISSION_CAMERA);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(permissions, REQUEST_PERMISSION_CAMERA);
         }
     }
 
@@ -277,7 +288,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         boolean allowed = true;
 
-        switch (requestCode){
+        switch (requestCode) {
             case REQUEST_PERMISSION_EXTERNAL_STORAGE:
 
                 for (int res : grantResults) {
@@ -293,14 +304,13 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
                 break;
         }
 
-        if (allowed){
+        if (allowed) {
             //user granted all permissions we can perform our task.
             //create();
-        }
-        else {
+        } else {
             // we will give warning to user that they haven't granted permissions.
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)){
+                if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
                     Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -316,7 +326,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
      * use this method if user choose 'never show again' in dialog
      */
     public void showNoStoragePermissionSnackbar() {
-        Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), R.string.permission_isnt_granted , Snackbar.LENGTH_LONG)
+        Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), R.string.permission_isnt_granted, Snackbar.LENGTH_LONG)
                 .setAction(R.string.settings, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -347,6 +357,16 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         }
         if (resultCode == -1) {
 
+            Handler handler = new Handler() {
+                @Override
+                public void handleMessage(Message msg) {
+                    recognitionText = onPhotoTaken();
+                    _field.setText(recognitionText);
+                }
+            };
+
+            handler.sendEmptyMessage(0);
+
 //            runOnUiThread(new Runnable() {
 //                @Override
 //                public void run() {
@@ -354,13 +374,13 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
 //                }
 //            });
 
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                   recognitionText = onPhotoTaken();
-                }
-            }).start();
-                _field.setText(recognitionText);
+//            new Thread(new Runnable() {
+//                @Override
+//                public void run() {
+//                   recognitionText = onPhotoTaken();
+//                }
+//            }).start();
+//                _field.setText(recognitionText);
         } else {
             Log.v(TAG, "User cancelled");
         }
@@ -375,7 +395,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
                 Manifest.permission.READ_CALENDAR)) {
             final String message = getString(R.string.camera_permission_text);
             Snackbar.make(SimpleAndroidOCRActivity.this.findViewById(R.id.cl_main), message, Snackbar.LENGTH_LONG)
-                    .setAction("GRANT", new View.OnClickListener() {
+                    .setAction(R.string.grant, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             requestPerms();
@@ -388,34 +408,40 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     }
 
     private void getTranslate() {
-        String BASE_URL = "https://glosbe.com/gapi/";
-        String firstPart = _field.getText().toString();
-        if (firstPart.length() > 1) {
-            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client2 = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+//        String BASE_URL = "https://glosbe.com/gapi/";
+//        String firstPart = _field.getText().toString();
+//        if (firstPart.length() > 1) {
+//            HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+//            interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+//            OkHttpClient client2 = new OkHttpClient.Builder().addInterceptor(interceptor).build();
+//
+//            Gson gson = new GsonBuilder()
+//                    .setLenient()
+//                    .create();
+//
+//            Retrofit client = new Retrofit.Builder()
+//                    .baseUrl(BASE_URL)
+//                    .client(client2)
+//                    .addConverterFactory(GsonConverterFactory.create(gson))
+//                    .build();
+//            TranslateAPI transAPI = client.create(TranslateAPI.class);
+//
+//
+//                Call<Translate> callTrans = transAPI.getTranslate(fromTr, translate, firstPart, "json", "true");
+//                callTrans.enqueue(this);
+//
+//        }
 
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-
-            Retrofit client = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .client(client2)
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-            TranslateAPI transAPI = client.create(TranslateAPI.class);
-
-
-                Call<Translate> callTrans = transAPI.getTranslate(fromTr, translate, firstPart, "json");
-                callTrans.enqueue(this);
-
-        }
+        String text = _field.getText().toString();
+        String url = "https://translate.google.com/#" + fromTr + "/" + translate + "/" + text;
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
     }
 
     @Override
     public void onResponse(final Call<Translate> call, final Response<Translate> response) {
-        if (response.isSuccessful()){
+        if (response.isSuccessful()) {
             String text = response.body().getTuc().get(0).getPhrase().getText();
 
             _field2.setText(text);

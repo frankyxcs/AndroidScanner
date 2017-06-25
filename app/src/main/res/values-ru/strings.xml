@@ -23,4 +23,5 @@
     <string name="settings">НАСТРОЙКИ</string>
     <string name="permission_denied">Разрешение на использование камеры отклонено.</string>
     <string name="get_translation">Перевести</string>
+    <string name="grant">РАЗРЕШИТЬ</string>
 </resources>

@@ -24,5 +24,6 @@
     <string name="settings">SETTINGS</string>
     <string name="permission_denied">Camera Permissions denied.</string>
     <string name="get_translation">Translate</string>
+    <string name="grant">GRANT</string>
 
 </resources>

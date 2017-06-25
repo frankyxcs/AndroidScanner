@@ -8,5 +8,5 @@ import retrofit2.http.Query;
 
 public interface TranslateAPI {
     @GET("translate")
-    Call<Translate> getTranslate(@Query("from") String from, @Query("dest") String to, @Query("phrase") String text, @Query("format") String format);
+    Call<Translate> getTranslate(@Query("from") String from, @Query("dest") String to, @Query("phrase") String text, @Query("format") String format, @Query("pretty") String pretty);
 }

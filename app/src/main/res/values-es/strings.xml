@@ -23,4 +23,5 @@
     <string name="settings">AJUSTES</string>
     <string name="permission_denied">Permisos de cámara negados.</string>
     <string name="get_translation">Traducir</string>
+    <string name="grant">CONCEDER</string>
 </resources>

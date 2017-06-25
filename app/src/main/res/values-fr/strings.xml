@@ -23,4 +23,5 @@
     <string name="settings">PARAMÈTRES</string>
     <string name="permission_denied">Autorisations de caméra refusées.</string>
     <string name="get_translation">Traduire</string>
+    <string name="grant">SUBVENTION</string>
 </resources>

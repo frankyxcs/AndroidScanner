@@ -81,6 +81,7 @@
 
             <Button
                 android:id="@+id/button"
+                android:enabled="false"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -169,19 +170,16 @@
                 android:id="@+id/bt_get_trans"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp"
+                android:enabled="false"
                 android:background="@color/colorPrimary"
                 android:text="@string/get_translation"
                 android:textColor="#FFF"/>
 
 
-            <EditText
-                android:id="@+id/field2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                android:hint="@string/translate_hint"
-                android:textColor="@color/colorPrimaryDark"/>
 
 
         </LinearLayout>
