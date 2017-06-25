@@ -89,6 +89,8 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     private ImageButton btFraT;
     private ImageButton btEspT;
 
+    private String recognitionText;
+
     protected static final String PHOTO_TAKEN = "photo_taken";
 
     @Override
@@ -345,13 +347,20 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         }
         if (resultCode == -1) {
 
-//            new Thread(new Runnable() {
+//            runOnUiThread(new Runnable() {
 //                @Override
 //                public void run() {
 //                    onPhotoTaken();
 //                }
-//            }).start();
-//            onPhotoTaken();
+//            });
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                   recognitionText = onPhotoTaken();
+                }
+            }).start();
+                _field.setText(recognitionText);
         } else {
             Log.v(TAG, "User cancelled");
         }
@@ -379,7 +388,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     }
 
     private void getTranslate() {
-        String BASE_URL = "http://www.transltr.org/";
+        String BASE_URL = "https://glosbe.com/gapi/";
         String firstPart = _field.getText().toString();
         if (firstPart.length() > 1) {
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
@@ -398,7 +407,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
             TranslateAPI transAPI = client.create(TranslateAPI.class);
 
 
-                Call<Translate> callTrans = transAPI.getTranslate(firstPart, fromTr, translate);
+                Call<Translate> callTrans = transAPI.getTranslate(fromTr, translate, firstPart, "json");
                 callTrans.enqueue(this);
 
         }
@@ -407,7 +416,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
     @Override
     public void onResponse(final Call<Translate> call, final Response<Translate> response) {
         if (response.isSuccessful()){
-            String text = response.body().getTranslate();
+            String text = response.body().getTuc().get(0).getPhrase().getText();
 
             _field2.setText(text);
 
@@ -445,7 +454,7 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
         }
     }
 
-    protected void onPhotoTaken() {
+    protected String onPhotoTaken() {
         _taken = true;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
@@ -523,11 +532,12 @@ public class SimpleAndroidOCRActivity extends AppCompatActivity implements View.
 
         recognizedText = recognizedText.trim();
 
-        if (recognizedText.length() != 0) {
-            _field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
-            _field.setSelection(_field.getText().toString().length());
-        }
+//        if (recognizedText.length() != 0) {
+//            _field.setText(_field.getText().toString().length() == 0 ? recognizedText : _field.getText() + " " + recognizedText);
+//            _field.setSelection(_field.getText().toString().length());
+//        }
 
         // Cycle done.
+        return recognizedText;
     }
 }

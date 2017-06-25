@@ -1,34 +1,32 @@
 package balyas.alexander.androidscanner.api;
 
 
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Translate {
-    @SerializedName("from")
-    private String fromLang;
+    @SerializedName("result")
+    @Expose
+    private String result;
+    @SerializedName("tuc")
+    @Expose
+    private List<Tuc> tuc = null;
 
-    @SerializedName("to")
-    private String toLang;
-
-    @SerializedName("text")
-    private String text;
-
-    @SerializedName("translationText")
-    private String  translate;
-
-    public String getFromLang() {
-        return fromLang;
+    public String getResult() {
+        return result;
     }
 
-    public String getToLang() {
-        return toLang;
+    public void setResult(String result) {
+        this.result = result;
     }
 
-    public String getText() {
-        return text;
+    public List<Tuc> getTuc() {
+        return tuc;
     }
 
-    public String getTranslate() {
-        return translate;
+    public void setTuc(List<Tuc> tuc) {
+        this.tuc = tuc;
     }
 }
